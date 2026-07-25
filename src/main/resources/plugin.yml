@@ -1,0 +1,24 @@
+name: XyTitle
+version: '1.0'
+main: org.xyplugin.xytitle.XyTitlePlugin
+api-version: '1.12'
+author: XyPlugin
+description: Xy series title storage and attribute title plugin.
+depend: [XyCore]
+
+commands:
+  xytitle:
+    description: XyTitle main command
+    usage: /xytitle <open|equip|unequip|give|take|clear|list|attributes|reload|help>
+    aliases: [xyt, title]
+
+permissions:
+  xytitle.use:
+    description: Allows players to use XyTitle.
+    default: true
+  xytitle.admin:
+    description: Allows administrators to manage player titles.
+    default: op
+  xytitle.reload:
+    description: Allows administrators to reload XyTitle.
+    default: op

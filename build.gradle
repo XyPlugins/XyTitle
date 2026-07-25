@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.xyplugin'
+version = '1.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+sourceSets {
+    xyCoreApiStub {
+        java.srcDir 'src/stub/java'
+    }
+    main {
+        compileClasspath += xyCoreApiStub.output
+    }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    xyCoreApiStubCompileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+}
+
+compileJava.dependsOn compileXyCoreApiStubJava
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    archiveFileName = "XyTitle-${project.version}.jar"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                'Implementation-Title': 'XyTitle',
+                'Implementation-Version': project.version
+        )
+    }
+}

@@ -1,0 +1,33 @@
+settings:
+  enabled: true
+  notify-upgrade: true
+
+growth-titles:
+  newbie_growth:
+    display-name: "&a新手成长称号"
+    item-material: "PAPER"
+    lore:
+      - "&7会随着玩家等级成长的称号"
+      - "&6当前等级: &f{current_level}/{max_level}"
+    base-attributes:
+      生命上限: 500
+      攻击力: 100
+    levels:
+      1:
+        required-level: 10
+        attributes:
+          生命上限: 500
+          攻击力: 100
+      2:
+        required-level: 20
+        attributes:
+          生命上限: 1000
+          攻击力: 200
+          暴击几率: "5%"
+      3:
+        required-level: 30
+        attributes:
+          生命上限: 2000
+          攻击力: 400
+          暴击几率: "8%"
+          暴击伤害: "10%"

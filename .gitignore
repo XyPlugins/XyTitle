@@ -1,0 +1,8 @@
+.gradle/
+build/
+out/
+*.iml
+*.log
+playerdata/
+timed-titles.yml
+growth-data.yml
