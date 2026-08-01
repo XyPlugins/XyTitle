@@ -28,8 +28,13 @@ public final class XyCoreBridge {
         }
         try {
             api = XyCore.get();
+            api.getClass().getMethod("getMessagePrefix");
             plugin.getLogger().info("Connected to XyCore " + api.getVersion() + ".");
             return true;
+        } catch (NoSuchMethodException exception) {
+            plugin.getLogger().severe("XyTitle requires XyCore 0.3.11 or newer for unified message prefixes.");
+            api = null;
+            return false;
         } catch (RuntimeException exception) {
             plugin.getLogger().severe("Could not access XyCore API: " + exception.getMessage());
             api = null;
@@ -64,6 +69,10 @@ public final class XyCoreBridge {
     public String attributeProviderName() {
         AttributeService attributes = attributes();
         return attributes == null ? "unavailable" : attributes.getProviderName();
+    }
+
+    public String getMessagePrefix() {
+        return api == null ? plugin.getConfig().getString("messages.prefix", "") : api.getMessagePrefix();
     }
 
     public void registerPlaceholders(PlaceholderProvider provider) {

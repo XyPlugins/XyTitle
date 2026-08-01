@@ -96,6 +96,6 @@ public final class TitleListener implements Listener {
     }
 
     private String message(String path) {
-        return plugin.getConfig().getString("messages.prefix", "") + plugin.getConfig().getString(path, "");
+        return plugin.messagePrefix() + plugin.getConfig().getString(path, "");
     }
 }

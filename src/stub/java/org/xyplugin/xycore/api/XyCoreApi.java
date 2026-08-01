@@ -8,5 +8,7 @@ public interface XyCoreApi {
 
     PlaceholderRegistry getPlaceholders();
 
+    String getMessagePrefix();
+
     String getVersion();
 }

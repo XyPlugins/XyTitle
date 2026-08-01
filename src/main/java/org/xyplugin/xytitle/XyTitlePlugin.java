@@ -1,6 +1,7 @@
 package org.xyplugin.xytitle;
 
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.xyplugin.xytitle.command.XyTitleCommand;
@@ -11,6 +12,7 @@ import org.xyplugin.xytitle.integration.XyCoreBridge;
 import org.xyplugin.xytitle.listener.TitleListener;
 import org.xyplugin.xytitle.placeholder.TitlePlaceholderProvider;
 import org.xyplugin.xytitle.service.TitleService;
+import org.xyplugin.xytitle.util.Text;
 
 public final class XyTitlePlugin extends JavaPlugin {
 
@@ -105,5 +107,23 @@ public final class XyTitlePlugin extends JavaPlugin {
 
     public TitleGui gui() {
         return titleGui;
+    }
+
+    public String messagePrefix() {
+        return coreBridge == null ? getConfig().getString("messages.prefix", "") : coreBridge.getMessagePrefix();
+    }
+
+    public String message(String path) {
+        return getConfig().getString(path, "");
+    }
+
+    public String prefixed(String text) {
+        return Text.color(messagePrefix() + (text == null ? "" : text));
+    }
+
+    public void send(CommandSender sender, String text) {
+        if (sender != null) {
+            sender.sendMessage(prefixed(text));
+        }
     }
 }

@@ -16,7 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.xyplugin.xytitle.XyTitlePlugin;
 import org.xyplugin.xytitle.config.AttributeAmount;
 import org.xyplugin.xytitle.config.TitleDefinition;
 import org.xyplugin.xytitle.config.TitleRegistry;
@@ -32,12 +32,12 @@ public final class TitleGui implements Listener {
     private static final String STORAGE_TITLE = "§6称号仓库";
     private static final String ATTRIBUTE_TITLE = "§6称号属性";
 
-    private final JavaPlugin plugin;
+    private final XyTitlePlugin plugin;
     private final TitleRegistry registry;
     private final TitleService service;
     private final Map<UUID, Integer> pages = new HashMap<UUID, Integer>();
 
-    public TitleGui(JavaPlugin plugin, TitleRegistry registry, TitleService service) {
+    public TitleGui(XyTitlePlugin plugin, TitleRegistry registry, TitleService service) {
         this.plugin = plugin;
         this.registry = registry;
         this.service = service;
@@ -162,8 +162,7 @@ public final class TitleGui implements Listener {
             return;
         }
         if (service.equip(player, id)) {
-            player.sendMessage(Text.color(plugin.getConfig().getString("messages.prefix", "")
-                    + plugin.getConfig().getString("messages.equipped", "").replace("{title}", service.displayName(id))));
+            plugin.send(player, plugin.getConfig().getString("messages.equipped", "").replace("{title}", service.displayName(id)));
             openStorage(player, page);
         }
     }

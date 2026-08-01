@@ -19,6 +19,7 @@ gui:
   storage-items-per-page: 45
 
 messages:
+  # 兼容旧配置保留；玩家聊天提示实际优先使用 XyCore config.yml -> messages.prefix。
   prefix: "&6[XyTitle] &r"
   no-permission: "&c权限不足。"
   players-only: "&c该命令只能由玩家执行。"

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.xyplugin.xytitle.XyTitlePlugin;
 import org.xyplugin.xytitle.config.AttributeAmount;
 import org.xyplugin.xytitle.config.GrowthDefinition;
 import org.xyplugin.xytitle.config.TitleDefinition;
@@ -20,12 +20,12 @@ import org.xyplugin.xytitle.util.Text;
 
 public final class TitleService {
 
-    private final JavaPlugin plugin;
+    private final XyTitlePlugin plugin;
     private final TitleRegistry registry;
     private final YamlTitleRepository repository;
     private final XyCoreBridge core;
 
-    public TitleService(JavaPlugin plugin, TitleRegistry registry, YamlTitleRepository repository, XyCoreBridge core) {
+    public TitleService(XyTitlePlugin plugin, TitleRegistry registry, YamlTitleRepository repository, XyCoreBridge core) {
         this.plugin = plugin;
         this.registry = registry;
         this.repository = repository;
@@ -121,7 +121,7 @@ public final class TitleService {
                 data.growthLevel(titleId, eligible);
                 changed = true;
                 if (notify) {
-                    player.sendMessage(Text.color(message("messages.prefix") + "&a成长称号 &f"
+                    player.sendMessage(Text.color(core.getMessagePrefix() + "&a成长称号 &f"
                             + displayName(titleId) + " &a已提升至 &f" + eligible + "&a 级。"));
                 }
             }
@@ -255,7 +255,7 @@ public final class TitleService {
     }
 
     private String format(String path, String titleId, Player player) {
-        return message("messages.prefix") + message(path)
+        return core.getMessagePrefix() + message(path)
                 .replace("{title}", displayName(titleId))
                 .replace("{player}", player.getName());
     }

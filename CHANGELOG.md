@@ -1,11 +1,11 @@
-# XyTitle Changelog
+# XyTitle 更新说明
 
 ## 1.0.1 - 2026-08-02
 
-- 玩家聊天提示前缀改为读取 `XyCoreApi#getMessagePrefix()`，与XyCore主配置保持一致。
-- 命令类、GUI提示、称号服务提示和监听器领取提示都改为经由 `XyTitlePlugin` 或 `XyCoreBridge` 的统一前缀入口。
-- 启动接入Core时检查 `getMessagePrefix` API，明确要求XyCore 0.3.11+。
-- 保持控制台日志与玩家聊天称号展示格式不受统一消息前缀影响。
+- 玩家聊天提示前缀统一读取 `XyCoreApi#getMessagePrefix()`，即 XyCore `config.yml -> messages.prefix`。
+- 命令反馈、称号领取提示、成长称号提示和过期提醒统一走同一玩家消息前缀入口。
+- 启动时检查XyCore 0.3.11+的前缀API，避免旧Core版本运行期报错。
+- 保持控制台日志使用XyTitle自身插件名；`display.chat-prefix` 仍只控制玩家聊天称号展示，不作为插件消息前缀。
 
 ## 1.0 - 2026-07-25
 

@@ -307,7 +307,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
     }
 
     private String color(String text) {
-        return Text.color(plugin.getConfig().getString("messages.prefix", "") + text);
+        return plugin.prefixed(text);
     }
 
     private List<String> starts(List<String> values, String prefix) {
