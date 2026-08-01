@@ -115,7 +115,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length < 2) {
-            sender.sendMessage(color("&c用法: /xytitle equip <称号ID>"));
+            local(sender, "&c用法: /xytitle equip <称号ID>");
             return true;
         }
         String titleId = args[1];
@@ -124,10 +124,11 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (!plugin.titles().equip(player, titleId)) {
-            sender.sendMessage(color(plugin.getConfig().getString("messages.not-owned", "")));
+            local(sender, plugin.getConfig().getString("messages.not-owned", ""));
             return true;
         }
-        sender.sendMessage(color(plugin.getConfig().getString("messages.equipped", "").replace("{title}", plugin.titles().displayName(titleId))));
+        player(player, plugin.getConfig().getString("messages.equipped", "")
+                .replace("{title}", plugin.titles().displayName(titleId)));
         return true;
     }
 
@@ -140,7 +141,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         plugin.titles().unequip(player);
-        sender.sendMessage(color(plugin.getConfig().getString("messages.unequipped", "")));
+        player(player, plugin.getConfig().getString("messages.unequipped", ""));
         return true;
     }
 
@@ -153,12 +154,12 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         Map<String, AttributeAmount> attributes = plugin.titles().calculateAttributes(player);
-        sender.sendMessage(color("&6&m==========&6[ &eXyTitle 属性 &6]&m=========="));
+        local(sender, "&6&m==========&6[ &eXyTitle 属性 &6]&m==========");
         if (attributes.isEmpty()) {
-            sender.sendMessage(color("&7暂无称号属性。"));
+            local(sender, "&7暂无称号属性。");
         } else {
             for (AttributeAmount amount : attributes.values()) {
-                sender.sendMessage(color("&a" + amount.toAttributeLine()));
+                local(sender, "&a" + amount.toAttributeLine());
             }
         }
         return true;
@@ -168,9 +169,9 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
         if (!allowed(sender, "xytitle.use")) {
             return true;
         }
-        sender.sendMessage(color("&6&m==========&6[ &eXyTitle 称号 &6]&m=========="));
+        local(sender, "&6&m==========&6[ &eXyTitle 称号 &6]&m==========");
         for (TitleDefinition title : plugin.registry().all()) {
-            sender.sendMessage(color("&a" + title.id() + " &7- " + title.displayName()));
+            local(sender, "&a" + title.id() + " &7- " + title.displayName());
         }
         return true;
     }
@@ -180,7 +181,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length < 3) {
-            sender.sendMessage(color("&c用法: /xytitle give <玩家> <称号ID> [时长]"));
+            local(sender, "&c用法: /xytitle give <玩家> <称号ID> [时长]");
             return true;
         }
         Player target = Bukkit.getPlayer(args[1]);
@@ -195,10 +196,10 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
         }
         String duration = args.length >= 4 ? args[3] : null;
         plugin.titles().grant(target, titleId, duration);
-        sender.sendMessage(color(plugin.getConfig().getString("messages.granted", "")
-                .replace("{player}", target.getName()).replace("{title}", plugin.titles().displayName(titleId))));
-        target.sendMessage(color(plugin.getConfig().getString("messages.received", "")
-                .replace("{title}", plugin.titles().displayName(titleId))));
+        local(sender, plugin.getConfig().getString("messages.granted", "")
+                .replace("{player}", target.getName()).replace("{title}", plugin.titles().displayName(titleId)));
+        player(target, plugin.getConfig().getString("messages.received", "")
+                .replace("{title}", plugin.titles().displayName(titleId)));
         return true;
     }
 
@@ -207,7 +208,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length < 3) {
-            sender.sendMessage(color("&c用法: /xytitle giveitem <玩家> <称号ID>"));
+            local(sender, "&c用法: /xytitle giveitem <玩家> <称号ID>");
             return true;
         }
         Player target = Bukkit.getPlayer(args[1]);
@@ -222,8 +223,8 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
         }
         ItemStack item = title.createItem(Arrays.asList("&e右键领取该称号", "&8ID: " + title.id()));
         target.getInventory().addItem(item);
-        sender.sendMessage(color(plugin.getConfig().getString("messages.granted", "")
-                .replace("{player}", target.getName()).replace("{title}", plugin.titles().displayName(title.id()))));
+        local(sender, plugin.getConfig().getString("messages.granted", "")
+                .replace("{player}", target.getName()).replace("{title}", plugin.titles().displayName(title.id())));
         return true;
     }
 
@@ -232,7 +233,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length < 3) {
-            sender.sendMessage(color("&c用法: /xytitle take <玩家> <称号ID>"));
+            local(sender, "&c用法: /xytitle take <玩家> <称号ID>");
             return true;
         }
         Player target = Bukkit.getPlayer(args[1]);
@@ -241,11 +242,11 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (!plugin.titles().revoke(target, args[2])) {
-            sender.sendMessage(color("&c该玩家没有这个称号。"));
+            local(sender, "&c该玩家没有这个称号。");
             return true;
         }
-        sender.sendMessage(color(plugin.getConfig().getString("messages.taken", "")
-                .replace("{player}", target.getName()).replace("{title}", plugin.titles().displayName(args[2]))));
+        local(sender, plugin.getConfig().getString("messages.taken", "")
+                .replace("{player}", target.getName()).replace("{title}", plugin.titles().displayName(args[2])));
         return true;
     }
 
@@ -254,7 +255,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length < 2) {
-            sender.sendMessage(color("&c用法: /xytitle clear <玩家>"));
+            local(sender, "&c用法: /xytitle clear <玩家>");
             return true;
         }
         Player target = Bukkit.getPlayer(args[1]);
@@ -263,7 +264,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         plugin.titles().clear(target);
-        sender.sendMessage(color(plugin.getConfig().getString("messages.cleared", "").replace("{player}", target.getName())));
+        local(sender, plugin.getConfig().getString("messages.cleared", "").replace("{player}", target.getName()));
         return true;
     }
 
@@ -272,19 +273,19 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         plugin.reloadRuntime();
-        sender.sendMessage(color(plugin.getConfig().getString("messages.reloaded", "")));
+        local(sender, plugin.getConfig().getString("messages.reloaded", ""));
         return true;
     }
 
     private void help(CommandSender sender) {
         for (String line : plugin.getConfig().getStringList("messages.help")) {
-            sender.sendMessage(color(line));
+            local(sender, line);
         }
     }
 
     private Player requirePlayer(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(color(plugin.getConfig().getString("messages.players-only", "")));
+            local(sender, plugin.getConfig().getString("messages.players-only", ""));
             return null;
         }
         return (Player) sender;
@@ -294,20 +295,24 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
         if (sender.hasPermission(permission)) {
             return true;
         }
-        sender.sendMessage(color(plugin.getConfig().getString("messages.no-permission", "")));
+        local(sender, plugin.getConfig().getString("messages.no-permission", ""));
         return false;
     }
 
     private void missingTitle(CommandSender sender, String titleId) {
-        sender.sendMessage(color(plugin.getConfig().getString("messages.title-not-found", "").replace("{title}", titleId)));
+        local(sender, plugin.getConfig().getString("messages.title-not-found", "").replace("{title}", titleId));
     }
 
     private void missingPlayer(CommandSender sender, String playerName) {
-        sender.sendMessage(color(plugin.getConfig().getString("messages.player-not-found", "").replace("{player}", playerName)));
+        local(sender, plugin.getConfig().getString("messages.player-not-found", "").replace("{player}", playerName));
     }
 
-    private String color(String text) {
-        return plugin.prefixed(text);
+    private void local(CommandSender sender, String text) {
+        plugin.sendLocal(sender, text);
+    }
+
+    private void player(Player player, String text) {
+        plugin.sendPlayer(player, text);
     }
 
     private List<String> starts(List<String> values, String prefix) {

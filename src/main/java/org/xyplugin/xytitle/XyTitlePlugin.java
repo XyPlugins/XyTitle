@@ -15,6 +15,7 @@ import org.xyplugin.xytitle.service.TitleService;
 import org.xyplugin.xytitle.util.Text;
 
 public final class XyTitlePlugin extends JavaPlugin {
+    private static final String DEFAULT_LOCAL_PREFIX = "&6[XyTitle] &r";
 
     private TitleRegistry registry;
     private YamlTitleRepository repository;
@@ -109,21 +110,51 @@ public final class XyTitlePlugin extends JavaPlugin {
         return titleGui;
     }
 
+    /** 玩家玩法提示：有 XyCore 时使用 XyCore 统一前缀。 */
     public String messagePrefix() {
-        return coreBridge == null ? getConfig().getString("messages.prefix", "") : coreBridge.getMessagePrefix();
+        return playerPrefix();
+    }
+
+    public String playerPrefix() {
+        return coreBridge == null ? localPrefix() : coreBridge.getMessagePrefix();
+    }
+
+    public String localPrefix() {
+        return getConfig().getString("messages.prefix", DEFAULT_LOCAL_PREFIX);
+    }
+
+    public String prefixed(String text) {
+        return prefixedPlayer(text);
+    }
+
+    public String prefixedPlayer(String text) {
+        return Text.color(playerPrefix() + (text == null ? "" : text));
+    }
+
+    public String prefixedLocal(String text) {
+        return Text.color(localPrefix() + (text == null ? "" : text));
     }
 
     public String message(String path) {
         return getConfig().getString(path, "");
     }
 
-    public String prefixed(String text) {
-        return Text.color(messagePrefix() + (text == null ? "" : text));
+    public void sendPlayer(org.bukkit.entity.Player player, String text) {
+        if (player != null) {
+            player.sendMessage(prefixedPlayer(text));
+        }
     }
 
+    public void sendLocal(CommandSender sender, String text) {
+        if (sender != null) {
+            sender.sendMessage(prefixedLocal(text));
+        }
+    }
+
+    /** 默认用于玩家玩法提示，旧调用保持兼容。 */
     public void send(CommandSender sender, String text) {
         if (sender != null) {
-            sender.sendMessage(prefixed(text));
+            sender.sendMessage(prefixedPlayer(text));
         }
     }
 }

@@ -32,7 +32,7 @@ public final class XyCoreBridge {
             plugin.getLogger().info("Connected to XyCore " + api.getVersion() + ".");
             return true;
         } catch (NoSuchMethodException exception) {
-            plugin.getLogger().severe("XyTitle requires XyCore 0.3.11 or newer for unified message prefixes.");
+            plugin.getLogger().severe("XyTitle requires XyCore 0.3.12 or newer for unified message prefix behavior.");
             api = null;
             return false;
         } catch (RuntimeException exception) {

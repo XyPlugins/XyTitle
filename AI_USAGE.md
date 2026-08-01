@@ -1,5 +1,12 @@
 # AI Usage Record
 
+## 2026-08-02 / 1.0.2
+
+- 根据服主最终确认，AI 将 XyTitle 从“玩家命令反馈统一 XyCore”改为语义分流。
+- 玩家玩法结果使用 XyCore 前缀：获得称号、领取称号物品、佩戴、卸下、成长升级、过期提醒。
+- 管理/帮助/报错使用 XyTitle 本地前缀：help、list、attributes、reload、give/take/clear 的用法和管理员反馈。
+- 修复前一轮自动脚本造成的 `localPrefix` 与 `prefixed(CommandSender, String)` 方法结构错误，并通过 `compileJava` 验证。
+
 ## 2026-07-25
 
 - 阅读并分析 `pl-Title-1.0.jar` 的 `plugin.yml`、`config.yml`、`growth_titles.yml`。

@@ -1,5 +1,12 @@
 # XyTitle Changelog
 
+## 1.0.2 - 2026-08-02
+
+- 按语义分流消息前缀：玩家玩法结果走 XyCore，管理/帮助/报错保留 XyTitle。
+- 增加 `playerPrefix/localPrefix`、`prefixedPlayer/prefixedLocal`、`sendPlayer/sendLocal`，保留旧 `send` 兼容玩家玩法调用。
+- 命令类逐项改为本地或玩家发送入口，避免玩家执行 help 或参数错误时显示为系统提示。
+- 本次不改变称号数据、属性源、GUI结构、Placeholder 或聊天称号格式。
+
 ## 1.0.1 - 2026-08-02
 
 - 玩家聊天提示前缀改为读取 `XyCoreApi#getMessagePrefix()`，与XyCore主配置保持一致。

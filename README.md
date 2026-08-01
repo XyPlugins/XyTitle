@@ -8,13 +8,13 @@ XyTitle 是 XY 系列称号插件，由旧版 `pl-Title` 重构而来。插件�
 
 - Java 8+
 - Spigot/Paper 1.12.2
-- XyCore 0.3.11+
+- XyCore 0.3.12+
 
 XyTitle 的 `plugin.yml` 使用 `depend: [XyCore]`，没有 XyCore 时插件不会启动。XyTitle 不直接依赖 AttributePlus，也不会自己写 AP 属性源。
 
 ## 玩家消息前缀
 
-XyTitle发送给玩家或命令发送者的插件提示统一读取 `plugins/XyCore/config.yml -> messages.prefix`，例如领取称号、佩戴、卸下、管理命令和重载反馈。`config.yml -> messages.prefix` 仅作为旧配置兜底保留。
+XyTitle 将玩家玩法结果和管理提示分开处理。领取称号、获得称号、佩戴称号、卸下称号、成长称号升级和称号过期提醒读取 `plugins/XyCore/config.yml -> messages.prefix`；`/xytitle help/list/attributes/reload/give/take/clear` 的权限不足、参数错误、玩家不在线、称号不存在和管理员反馈保留 XyTitle 自身前缀。
 
 注意：`display.chat-prefix` 是玩家聊天中的称号展示格式，例如 `[称号] 玩家名`，它不是插件提示前缀，不会被XyCore消息前缀替换。
 

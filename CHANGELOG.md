@@ -1,5 +1,12 @@
 # XyTitle 更新说明
 
+## 1.0.2 - 2026-08-02
+
+- 按服主最终确认调整前缀语义：获得/领取/佩戴/卸下/成长升级/过期等玩家玩法提示走 XyCore `messages.prefix`。
+- `/xytitle help/list/attributes/reload/give/take/clear` 的用法、权限、玩家不在线、称号不存在和管理员反馈保留 XyTitle 自身前缀。
+- 新增 `sendPlayer` 与 `sendLocal`，并修复此前半插入造成的 `prefixed(CommandSender, String)` 坏结构。
+- 保持 `display.chat-prefix` 仅用于玩家聊天称号展示，不参与插件提示前缀切换。
+
 ## 1.0.1 - 2026-08-02
 
 - 玩家聊天提示前缀统一读取 `XyCoreApi#getMessagePrefix()`，即 XyCore `config.yml -> messages.prefix`。
