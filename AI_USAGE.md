@@ -3,7 +3,7 @@
 ## 2026-08-02 / 1.0.3
 
 - 根据服主新需求，AI 为 XyTitle 增加 `/xych` 缩写命令。
-- 新增 `/xych get <称号ID>` 自助获取称号命令，并将权限单独设为 `xytitle.get`，默认 op，避免普通玩家无权限领取全部称号。
+- 新增 `/xych get <称号ID或显示名>` 自助获取称号命令，并将权限单独设为 `xytitle.get`，默认 op，避免普通玩家无权限领取全部称号。
 - 将普通称号定义从 `config.yml` 拆分为 `titles.yml`，成长称号仍保留在 `growth_titles.yml`。
 - 增加旧配置迁移逻辑：如果服务器已有旧版 `config.yml -> titles:` 且尚未生成 `titles.yml`，启动时自动复制旧称号数据到 `titles.yml`。
 - 根据服主截图反馈，增加 `display.player-display-name-prefix-enabled` 开关，默认不把称号写入 Bukkit 全局玩家显示名，避免称号出现在 `/gamemode` 等系统提示里。

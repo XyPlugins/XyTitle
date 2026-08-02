@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.xyplugin.xytitle.util.Text;
 
 public final class TitleRegistry {
     private static final String REGULAR_TITLES_FILE = "titles.yml";
@@ -209,6 +210,26 @@ public final class TitleRegistry {
 
     public TitleDefinition get(String id) {
         return titles.get(id);
+    }
+
+    public TitleDefinition resolve(String input) {
+        if (input == null) {
+            return null;
+        }
+        TitleDefinition byId = titles.get(input);
+        if (byId != null) {
+            return byId;
+        }
+        String plainInput = Text.plain(input).trim();
+        if (plainInput.isEmpty()) {
+            return null;
+        }
+        for (TitleDefinition title : titles.values()) {
+            if (Text.plain(title.displayName()).trim().equalsIgnoreCase(plainInput)) {
+                return title;
+            }
+        }
+        return null;
     }
 
     public GrowthDefinition getGrowth(String id) {

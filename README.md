@@ -39,7 +39,7 @@ display:
 | 指令 | 说明 | 权限 |
 | --- | --- | --- |
 | `/xytitle open` | 打开称号菜单 | `xytitle.use` |
-| `/xych get <称号ID>` | 给自己直接获取称号，适合测试或受控奖励 | `xytitle.get` |
+| `/xych get <称号ID或显示名>` | 给自己直接获取称号，适合测试或受控奖励 | `xytitle.get` |
 | `/xytitle equip <称号ID>` | 佩戴称号 | `xytitle.use` |
 | `/xytitle unequip` | 取消佩戴 | `xytitle.use` |
 | `/xytitle attributes` | 查看当前称号属性 | `xytitle.use` |

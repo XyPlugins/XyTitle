@@ -3,7 +3,7 @@
 ## 1.0.3 - 2026-08-02
 
 - 新增 `/xych` 缩写命令，作为 `/xytitle` 的推荐短入口。
-- 新增 `/xych get <称号ID>`，玩家可在拥有 `xytitle.get` 权限时直接获取指定称号；默认 op，方便测试和受控发放。
+- 新增 `/xych get <称号ID或显示名>`，玩家可在拥有 `xytitle.get` 权限时直接获取指定称号；默认 op，方便测试和受控发放。
 - 普通称号配置从 `config.yml -> titles:` 拆分到独立 `titles.yml`，成长称号继续使用 `growth_titles.yml`。
 - 首次加载新版本时，如果旧 `config.yml` 中存在 `titles:` 且 `titles.yml` 不存在，会自动迁移旧称号配置到 `titles.yml`。
 - 新增 `display.player-display-name-prefix-enabled`，默认关闭，避免称号出现在 `/gamemode` 等系统提示中的玩家名前面。

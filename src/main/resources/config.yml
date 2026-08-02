@@ -49,7 +49,7 @@ messages:
   attribute-updated: "&7称号属性已刷新。"
   help:
     - "&6/xych open &7- 打开称号仓库"
-    - "&6/xych get <称号> &7- 直接获取称号，需要 xytitle.get"
+    - "&6/xych get <称号> &7- 直接获取称号，支持ID或显示名，需要 xytitle.get"
     - "&6/xych equip <称号> &7- 佩戴称号"
     - "&6/xych unequip &7- 取消佩戴"
     - "&6/xych attributes &7- 查看当前称号属性"

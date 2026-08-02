@@ -121,14 +121,15 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         if (args.length < 2) {
-            local(sender, "&c用法: /xych get <称号ID>");
+            local(sender, "&c用法: /xych get <称号ID或显示名>");
             return true;
         }
-        String titleId = args[1];
-        if (!plugin.registry().exists(titleId)) {
-            missingTitle(sender, titleId);
+        TitleDefinition title = plugin.registry().resolve(args[1]);
+        if (title == null) {
+            missingTitle(sender, args[1]);
             return true;
         }
+        String titleId = title.id();
         plugin.titles().grant(player, titleId, null);
         player(player, plugin.getConfig().getString("messages.self-received", plugin.getConfig().getString("messages.received", ""))
                 .replace("{title}", plugin.titles().displayName(titleId)));
