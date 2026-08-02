@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class TitleRegistry {
+    private static final String REGULAR_TITLES_FILE = "titles.yml";
 
     private final JavaPlugin plugin;
     private final Map<String, TitleDefinition> titles = new HashMap<String, TitleDefinition>();
@@ -32,16 +33,78 @@ public final class TitleRegistry {
     }
 
     private void loadRegularTitles() {
-        ConfigurationSection section = plugin.getConfig().getConfigurationSection("titles");
+        File file = new File(plugin.getDataFolder(), REGULAR_TITLES_FILE);
+        ensureRegularTitleFile(file);
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        ConfigurationSection section = yaml.getConfigurationSection("titles");
         if (section == null) {
+            loadLegacyRegularTitlesIfNeeded();
             return;
         }
+        loadRegularTitleSection(section);
+    }
+
+    private void loadRegularTitleSection(ConfigurationSection section) {
         for (String id : section.getKeys(false)) {
             ConfigurationSection titleSection = section.getConfigurationSection(id);
             if (titleSection == null) {
                 continue;
             }
             titles.put(id, readTitle(id, titleSection, false));
+        }
+    }
+
+    private void ensureRegularTitleFile(File file) {
+        if (file.isFile()) {
+            return;
+        }
+        ConfigurationSection legacy = plugin.getConfig().getConfigurationSection("titles");
+        if (legacy != null && !legacy.getKeys(false).isEmpty()) {
+            if (migrateLegacyRegularTitles(file, legacy)) {
+                return;
+            }
+        }
+        plugin.saveResource(REGULAR_TITLES_FILE, false);
+    }
+
+    private boolean migrateLegacyRegularTitles(File file, ConfigurationSection legacy) {
+        try {
+            File folder = file.getParentFile();
+            if (folder != null && !folder.isDirectory() && !folder.mkdirs()) {
+                plugin.getLogger().warning("Could not create XyTitle data folder for titles.yml.");
+                return false;
+            }
+            YamlConfiguration yaml = new YamlConfiguration();
+            ConfigurationSection target = yaml.createSection("titles");
+            copySection(legacy, target);
+            yaml.save(file);
+            plugin.getLogger().info("已将 config.yml 中的旧 titles: 称号配置迁移到 titles.yml。");
+            return true;
+        } catch (Exception exception) {
+            plugin.getLogger().warning("迁移旧 titles: 到 titles.yml 失败，将使用默认 titles.yml: " + exception.getMessage());
+            return false;
+        }
+    }
+
+    private void loadLegacyRegularTitlesIfNeeded() {
+        if (!titles.isEmpty()) {
+            return;
+        }
+        ConfigurationSection legacy = plugin.getConfig().getConfigurationSection("titles");
+        if (legacy == null || legacy.getKeys(false).isEmpty()) {
+            return;
+        }
+        plugin.getLogger().warning("titles.yml 未找到有效 titles: 节，临时兼容读取 config.yml 中的旧 titles:。建议迁移到 titles.yml。");
+        loadRegularTitleSection(legacy);
+    }
+
+    private void copySection(ConfigurationSection source, ConfigurationSection target) {
+        for (String key : source.getKeys(false)) {
+            if (source.isConfigurationSection(key)) {
+                copySection(source.getConfigurationSection(key), target.createSection(key));
+            } else {
+                target.set(key, source.get(key));
+            }
         }
     }
 

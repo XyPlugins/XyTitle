@@ -1,16 +1,27 @@
 settings:
-  # owned-all: 玩家已拥有的所有称号属性累加，兼容原插件逻辑。
-  # equipped-only: 只计算当前佩戴称号属性。
+  # owned-all：玩家已拥有的所有称号属性累加，兼容旧插件逻辑。
+  # equipped-only：只计算当前佩戴称号属性。
   attribute-mode: owned-all
   attribute-source-prefix: "xytitle"
   timed-check-ticks: 1200
   save-on-change: true
 
 display:
+  # 是否在普通 Bukkit 聊天事件中追加称号前缀。
+  # 如果你已经使用 XyChatPlus 接管聊天，建议关闭这里，改用 XyChatPlus 的 %title%。
   chat-prefix-enabled: true
   chat-prefix: "&f[&6{title}&f] "
+
+  # 是否把称号写进 Bukkit 玩家显示名。
+  # 开启后，/gamemode、死亡提示、部分系统提示或其他插件读取玩家显示名时也会带称号。
+  # 关闭后，这些地方只显示玩家原名；推荐保持 false。
+  player-display-name-prefix-enabled: false
+
+  # 是否在 Tab 列表显示称号。
   tab-prefix-enabled: true
   tab-prefix: "&6{title} &f{player}"
+
+  # 玩家没有佩戴称号时显示的空称号文本。
   no-title: ""
 
 gui:
@@ -28,6 +39,7 @@ messages:
   player-not-found: "&c玩家不在线: &f{player}"
   granted: "&a已给予 &f{player} &a称号 &f{title}&a。"
   received: "&a你获得了新称号: &f{title}"
+  self-received: "&a你已直接获取称号: &f{title}"
   taken: "&a已移除 &f{player} &a的称号 &f{title}&a。"
   cleared: "&a已清空 &f{player} &a的所有称号。"
   equipped: "&a已佩戴称号: &f{title}"
@@ -36,57 +48,17 @@ messages:
   expired: "&c你的限时称号 &f{title} &c已过期。"
   attribute-updated: "&7称号属性已刷新。"
   help:
-    - "&6/xytitle open &7- 打开称号仓库"
-    - "&6/xytitle equip <称号> &7- 佩戴称号"
-    - "&6/xytitle unequip &7- 取消佩戴"
-    - "&6/xytitle attributes &7- 查看当前称号属性"
-    - "&6/xytitle give <玩家> <称号> [时长] &7- 给予称号"
-    - "&6/xytitle take <玩家> <称号> &7- 移除称号"
-    - "&6/xytitle clear <玩家> &7- 清空称号"
-    - "&6/xytitle reload &7- 重载插件"
+    - "&6/xych open &7- 打开称号仓库"
+    - "&6/xych get <称号> &7- 直接获取称号，需要 xytitle.get"
+    - "&6/xych equip <称号> &7- 佩戴称号"
+    - "&6/xych unequip &7- 取消佩戴"
+    - "&6/xych attributes &7- 查看当前称号属性"
+    - "&6/xych list &7- 查看称号列表"
+    - "&6/xych give <玩家> <称号> [时长] &7- 管理员给予称号"
+    - "&6/xych take <玩家> <称号> &7- 管理员移除称号"
+    - "&6/xych clear <玩家> &7- 管理员清空称号"
+    - "&6/xych reload &7- 重载插件"
 
-titles:
-  newbie:
-    display-name: "&a新手称号"
-    item-material: "PAPER"
-    lore:
-      - "&7新手专属称号"
-      - "&6生命上限: +200"
-      - "&6攻击力: +50"
-      - "&6暴击几率: +5%"
-      - "&6暴击伤害: +20%"
-    attributes:
-      生命上限: 200
-      攻击力: 50
-      暴击几率: "5%"
-      暴击伤害: "20%"
-
-  first_charge:
-    display-name: "&a6元首充称号"
-    item-material: "PAPER"
-    lore:
-      - "&76元首充专属称号"
-      - "&6生命上限: +3000"
-      - "&6攻击力: +800"
-      - "&6暴击几率: +8%"
-      - "&4饮血几率: +5%"
-      - "&6暴击伤害: +25%"
-    attributes:
-      生命上限: 3000
-      攻击力: 800
-      暴击几率: "8%"
-      饮血几率: "5%"
-      暴击伤害: "25%"
-
-  pioneer_7d:
-    display-name: "&a开荒者"
-    item-material: "PAPER"
-    duration: "7d"
-    lore:
-      - "&7开荒限时称号"
-      - "&6生命加成: +75%"
-      - "&6攻击加成: +75%"
-      - "&e有效期: &f7天"
-    attributes:
-      生命加成: "75%"
-      攻击加成: "75%"
+# 普通称号已移动到 titles.yml。
+# 成长称号继续使用 growth_titles.yml。
+# 旧版 config.yml 中的 titles: 会在 titles.yml 不存在时自动迁移。

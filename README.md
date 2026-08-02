@@ -14,9 +14,18 @@ XyTitle 的 `plugin.yml` 使用 `depend: [XyCore]`，没有 XyCore 时插件不�
 
 ## 玩家消息前缀
 
-XyTitle 将玩家玩法结果和管理提示分开处理。领取称号、获得称号、佩戴称号、卸下称号、成长称号升级和称号过期提醒读取 `plugins/XyCore/config.yml -> messages.prefix`；`/xytitle help/list/attributes/reload/give/take/clear` 的权限不足、参数错误、玩家不在线、称号不存在和管理员反馈保留 XyTitle 自身前缀。
+XyTitle 将玩家玩法结果和管理提示分开处理。领取称号、获得称号、佩戴称号、卸下称号、成长称号升级和称号过期提醒读取 `plugins/XyCore/config.yml -> messages.prefix`；`/xytitle` 或 `/xych` 的 help/list/attributes/reload/give/take/clear、权限不足、参数错误、玩家不在线、称号不存在和管理员反馈保留 XyTitle 自身前缀。
 
 注意：`display.chat-prefix` 是玩家聊天中的称号展示格式，例如 `[称号] 玩家名`，它不是插件提示前缀，不会被XyCore消息前缀替换。
+
+如果不希望称号出现在 `/gamemode`、死亡提示、部分系统提示或其他插件消息中的玩家名前面，请保持：
+
+```yaml
+display:
+  player-display-name-prefix-enabled: false
+```
+
+推荐让聊天称号交给 XyChatPlus 的 `%title%` 显示，不再把称号写进 Bukkit 全局玩家显示名。
 
 ## 指令
 
@@ -24,11 +33,13 @@ XyTitle 将玩家玩法结果和管理提示分开处理。领取称号、获得
 
 ```text
 /xytitle
+/xych
 ```
 
 | 指令 | 说明 | 权限 |
 | --- | --- | --- |
 | `/xytitle open` | 打开称号菜单 | `xytitle.use` |
+| `/xych get <称号ID>` | 给自己直接获取称号，适合测试或受控奖励 | `xytitle.get` |
 | `/xytitle equip <称号ID>` | 佩戴称号 | `xytitle.use` |
 | `/xytitle unequip` | 取消佩戴 | `xytitle.use` |
 | `/xytitle attributes` | 查看当前称号属性 | `xytitle.use` |
@@ -39,11 +50,13 @@ XyTitle 将玩家玩法结果和管理提示分开处理。领取称号、获得
 | `/xytitle clear <玩家>` | 清空玩家称号 | `xytitle.admin` |
 | `/xytitle reload` | 重载配置并刷新在线玩家属性 | `xytitle.reload` |
 
-别名：`/xyt`、`/title`。
+别名：`/xych`、`/xyt`、`/title`。推荐日常使用 `/xych`。
 
 ## 配置称号
 
-普通称号配置在 `config.yml`：
+普通称号配置在 `titles.yml`：
+
+如果服务器已经有旧版 `config.yml -> titles:`，并且 `titles.yml` 还不存在，新版本首次启动时会自动复制旧称号配置到 `titles.yml`。
 
 ```yaml
 titles:
@@ -162,7 +175,7 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-17'
 产物：
 
 ```text
-build/libs/XyTitle-1.0.1.jar
+build/libs/XyTitle-1.0.3.jar
 ```
 
 ## 相比旧版优化

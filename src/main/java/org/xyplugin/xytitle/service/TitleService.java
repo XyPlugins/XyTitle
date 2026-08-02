@@ -233,7 +233,11 @@ public final class TitleService {
                     .replace("{player}", player.getName());
             player.setPlayerListName(Text.color(tab));
         }
-        player.setDisplayName(Text.color(title.isEmpty() ? player.getName() : title + " " + player.getName()));
+        if (plugin.getConfig().getBoolean("display.player-display-name-prefix-enabled", false)) {
+            player.setDisplayName(Text.color(title.isEmpty() ? player.getName() : title + " " + player.getName()));
+        } else {
+            player.setDisplayName(player.getName());
+        }
     }
 
     private void applyAttributes(Player player, PlayerTitleData data) {

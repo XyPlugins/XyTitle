@@ -1,5 +1,5 @@
 name: XyTitle
-version: '1.0.2'
+version: '1.0.3'
 main: org.xyplugin.xytitle.XyTitlePlugin
 api-version: '1.12'
 author: XyPlugin
@@ -9,8 +9,8 @@ depend: [XyCore]
 commands:
   xytitle:
     description: XyTitle main command
-    usage: /xytitle <open|equip|unequip|give|take|clear|list|attributes|reload|help>
-    aliases: [xyt, title]
+    usage: /xytitle <open|get|equip|unequip|give|take|clear|list|attributes|reload|help>
+    aliases: [xych, xyt, title]
 
 permissions:
   xytitle.use:
@@ -18,6 +18,9 @@ permissions:
     default: true
   xytitle.admin:
     description: Allows administrators to manage player titles.
+    default: op
+  xytitle.get:
+    description: Allows players to directly obtain configured titles for testing or controlled rewards.
     default: op
   xytitle.reload:
     description: Allows administrators to reload XyTitle.

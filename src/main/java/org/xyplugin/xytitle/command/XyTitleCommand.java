@@ -35,6 +35,9 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
         if ("open".equals(sub)) {
             return open(sender);
         }
+        if ("get".equals(sub) || "claim".equals(sub)) {
+            return get(sender, args);
+        }
         if ("equip".equals(sub)) {
             return equip(sender, args);
         }
@@ -70,6 +73,9 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
             List<String> base = new ArrayList<String>(Arrays.asList("open", "equip", "unequip", "attributes", "list", "help"));
+            if (sender.hasPermission("xytitle.get")) {
+                base.add("get");
+            }
             if (sender.hasPermission("xytitle.admin")) {
                 base.addAll(Arrays.asList("give", "giveitem", "take", "clear"));
             }
@@ -78,7 +84,7 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             }
             return starts(base, args[0]);
         }
-        if (args.length == 2 && Arrays.asList("equip").contains(args[0].toLowerCase(Locale.ROOT))) {
+        if (args.length == 2 && Arrays.asList("equip", "get", "claim").contains(args[0].toLowerCase(Locale.ROOT))) {
             return starts(plugin.registry().ids(), args[1]);
         }
         if (args.length == 2 && Arrays.asList("give", "grant", "giveitem", "take", "remove", "clear").contains(args[0].toLowerCase(Locale.ROOT))) {
@@ -103,6 +109,29 @@ public final class XyTitleCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         plugin.gui().openMain(player);
+        return true;
+    }
+
+    private boolean get(CommandSender sender, String[] args) {
+        Player player = requirePlayer(sender);
+        if (player == null) {
+            return true;
+        }
+        if (!allowed(sender, "xytitle.get")) {
+            return true;
+        }
+        if (args.length < 2) {
+            local(sender, "&c用法: /xych get <称号ID>");
+            return true;
+        }
+        String titleId = args[1];
+        if (!plugin.registry().exists(titleId)) {
+            missingTitle(sender, titleId);
+            return true;
+        }
+        plugin.titles().grant(player, titleId, null);
+        player(player, plugin.getConfig().getString("messages.self-received", plugin.getConfig().getString("messages.received", ""))
+                .replace("{title}", plugin.titles().displayName(titleId)));
         return true;
     }
 

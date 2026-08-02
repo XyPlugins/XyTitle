@@ -1,0 +1,56 @@
+# XyTitle 普通称号配置
+# 首次启动后生成到：plugins/XyTitle/titles.yml
+# 这里只放普通称号和限时称号；成长称号请放在 growth_titles.yml。
+#
+# 字段说明：
+# display-name：称号显示名，支持 & 颜色代码。
+# item-material：称号领取物品材质，1.12.2 原版材质名，例如 PAPER。
+# duration：可选，限时称号有效期；支持 d/h/m/s，例如 7d、12h、30m。
+# lore：称号物品显示说明。
+# attributes：称号属性，会通过 XyCore 写入属性源，不直接对接 AttributePlus。
+
+titles:
+  newbie:
+    display-name: "&a新手称号"
+    item-material: "PAPER"
+    lore:
+      - "&7新手专属称号"
+      - "&6生命上限: +200"
+      - "&6攻击力: +50"
+      - "&6暴击几率: +5%"
+      - "&6暴击伤害: +20%"
+    attributes:
+      生命上限: 200
+      攻击力: 50
+      暴击几率: "5%"
+      暴击伤害: "20%"
+
+  first_charge:
+    display-name: "&a6元首充称号"
+    item-material: "PAPER"
+    lore:
+      - "&76元首充专属称号"
+      - "&6生命上限: +3000"
+      - "&6攻击力: +800"
+      - "&6暴击几率: +8%"
+      - "&4饮血几率: +5%"
+      - "&6暴击伤害: +25%"
+    attributes:
+      生命上限: 3000
+      攻击力: 800
+      暴击几率: "8%"
+      饮血几率: "5%"
+      暴击伤害: "25%"
+
+  pioneer_7d:
+    display-name: "&a开荒者"
+    item-material: "PAPER"
+    duration: "7d"
+    lore:
+      - "&7开荒限时称号"
+      - "&6生命加成: +75%"
+      - "&6攻击加成: +75%"
+      - "&e有效期: &f7天"
+    attributes:
+      生命加成: "75%"
+      攻击加成: "75%"
