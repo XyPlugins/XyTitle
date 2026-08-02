@@ -1,10 +1,11 @@
 name: XyTitle
-version: '1.0.3'
+version: '1.0.4'
 main: org.xyplugin.xytitle.XyTitlePlugin
 api-version: '1.12'
 author: XyPlugin
 description: Xy series title storage and attribute title plugin.
 depend: [XyCore]
+softdepend: [PlaceholderAPI]
 
 commands:
   xytitle:

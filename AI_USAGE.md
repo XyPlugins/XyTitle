@@ -1,5 +1,12 @@
 # AI Usage Record
 
+## 2026-08-02 / 1.0.4
+
+- 根据服主确认，称号变量应由 XyTitle 提供，聊天插件只引用 `%xytitle_title%`，不在 XyChatPlus 中写 XyTitle 特判。
+- AI 保持 XyChatPlus 不变，改为给 XyTitle 增加 PlaceholderAPI 直连 Expansion。
+- XyTitle 现在同时注册 XyCore 内部变量和 PlaceholderAPI `%xytitle_*%` 变量；若 PlaceholderAPI 未安装，则仅保留 XyCore 内部变量。
+- 文档新增 `%xytitle_title%` 聊天格式示例和 `/papi parse me %xytitle_title%` 测试说明。
+
 ## 2026-08-02 / 1.0.3
 
 - 根据服主新需求，AI 为 XyTitle 增加 `/xych` 缩写命令。

@@ -9,6 +9,7 @@ XyTitle 是 XY 系列称号插件，由旧版 `pl-Title` 重构而来。插件�
 - Java 8+
 - Spigot/Paper 1.12.2
 - XyCore 0.3.12+
+- PlaceholderAPI 可选；如果聊天插件要直接使用 `%xytitle_title%` 这类变量，建议安装并启用。
 
 XyTitle 的 `plugin.yml` 使用 `depend: [XyCore]`，没有 XyCore 时插件不会启动。XyTitle 不直接依赖 AttributePlus，也不会自己写 AP 属性源。
 
@@ -25,7 +26,7 @@ display:
   player-display-name-prefix-enabled: false
 ```
 
-推荐让聊天称号交给 XyChatPlus 的 `%title%` 显示，不再把称号写进 Bukkit 全局玩家显示名。
+推荐让聊天称号交给聊天格式里的 `%xytitle_title%` 显示，不再把称号写进 Bukkit 全局玩家显示名。
 
 ## 指令
 
@@ -133,6 +134,8 @@ growth-titles:
 
 XyTitle 通过 XyCore 的 PlaceholderRegistry 注册命名空间 `xytitle`。
 
+从 1.0.4 开始，如果服务器安装了 PlaceholderAPI，XyTitle 也会直接注册 `%xytitle_*%`，聊天插件只要支持 PlaceholderAPI 就能引用，不需要聊天插件专门适配 XyTitle。
+
 常用变量：
 
 ```text
@@ -146,7 +149,21 @@ XyTitle 通过 XyCore 的 PlaceholderRegistry 注册命名空间 `xytitle`。
 %xytitle_attr_<属性名>%
 ```
 
-是否能映射到 PlaceholderAPI 取决于 XyCore 的 PlaceholderAPI 桥接状态。
+聊天格式示例：
+
+```yaml
+format: '&7[%multiverse_world_alias%&7][&aLv:%AkariLevel_Default_Level%&7][%xytitle_title%][player]&f: '
+```
+
+测试变量可以在游戏内执行：
+
+```text
+/papi parse me %xytitle_title%
+```
+
+注意：`%xytitle_title%` 显示的是当前佩戴称号；只拥有但没有佩戴时会显示为空。
+
+如果 PlaceholderAPI 未安装，`%xytitle_title%` 不能被普通聊天插件解析，但 XyTitle 仍会保留 XyCore 内部变量注册。
 
 ## 数据
 
@@ -175,7 +192,7 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-17'
 产物：
 
 ```text
-build/libs/XyTitle-1.0.3.jar
+build/libs/XyTitle-1.0.4.jar
 ```
 
 ## 相比旧版优化

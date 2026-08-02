@@ -1,5 +1,12 @@
 # XyTitle 更新说明
 
+## 1.0.4 - 2026-08-02
+
+- 新增 XyTitle 自身 PlaceholderAPI 直连变量注册，提供 `%xytitle_*%` 系列变量。
+- `%xytitle_title%` 可直接被支持 PlaceholderAPI 的聊天插件读取，显示玩家当前佩戴称号。
+- 保留原有 XyCore PlaceholderRegistry 注册逻辑，XyCore 内部变量链不变。
+- 文档补充聊天格式示例和 `/papi parse me %xytitle_title%` 测试方式。
+
 ## 1.0.3 - 2026-08-02
 
 - 新增 `/xych` 缩写命令，作为 `/xytitle` 的推荐短入口。

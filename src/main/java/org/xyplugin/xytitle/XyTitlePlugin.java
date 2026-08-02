@@ -10,6 +10,7 @@ import org.xyplugin.xytitle.data.YamlTitleRepository;
 import org.xyplugin.xytitle.gui.TitleGui;
 import org.xyplugin.xytitle.integration.XyCoreBridge;
 import org.xyplugin.xytitle.listener.TitleListener;
+import org.xyplugin.xytitle.placeholder.TitlePapiExpansion;
 import org.xyplugin.xytitle.placeholder.TitlePlaceholderProvider;
 import org.xyplugin.xytitle.service.TitleService;
 import org.xyplugin.xytitle.util.Text;
@@ -23,6 +24,8 @@ public final class XyTitlePlugin extends JavaPlugin {
     private TitleService titleService;
     private TitleGui titleGui;
     private BukkitTask timedTask;
+    private TitlePlaceholderProvider placeholderProvider;
+    private Object papiExpansion;
 
     @Override
     public void onEnable() {
@@ -50,7 +53,9 @@ public final class XyTitlePlugin extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new TitleListener(this, registry, titleService, titleGui), this);
         getServer().getPluginManager().registerEvents(titleGui, this);
-        coreBridge.registerPlaceholders(new TitlePlaceholderProvider(titleService));
+        placeholderProvider = new TitlePlaceholderProvider(titleService);
+        coreBridge.registerPlaceholders(placeholderProvider);
+        refreshPapiExpansion();
         startTimedTask();
 
         getLogger().info("XyTitle " + getDescription().getVersion() + " enabled. XyCore attributes: "
@@ -63,6 +68,7 @@ public final class XyTitlePlugin extends JavaPlugin {
             timedTask.cancel();
             timedTask = null;
         }
+        unregisterPapiExpansion();
         if (coreBridge != null) {
             coreBridge.unregisterPlaceholders("xytitle");
         }
@@ -80,7 +86,43 @@ public final class XyTitlePlugin extends JavaPlugin {
         for (org.bukkit.entity.Player player : getServer().getOnlinePlayers()) {
             titleService.refresh(player);
         }
+        refreshPapiExpansion();
         startTimedTask();
+    }
+
+    private void refreshPapiExpansion() {
+        unregisterPapiExpansion();
+        if (placeholderProvider == null) {
+            return;
+        }
+        org.bukkit.plugin.Plugin papi = getServer().getPluginManager().getPlugin("PlaceholderAPI");
+        if (papi == null || !papi.isEnabled()) {
+            getLogger().info("未检测到PlaceholderAPI，%xytitle_*% 保留为XyCore内部变量。");
+            return;
+        }
+        try {
+            TitlePapiExpansion expansion = new TitlePapiExpansion(this, placeholderProvider);
+            if (expansion.register()) {
+                papiExpansion = expansion;
+                getLogger().info("已直接注册 PlaceholderAPI 变量: %xytitle_*%。");
+            } else {
+                getLogger().info("%xytitle_*% 变量已由其他桥接注册，保留现有注册。");
+            }
+        } catch (Throwable failure) {
+            getLogger().warning("直接注册 PlaceholderAPI 变量失败，将仅使用XyCore内部变量: " + failure.getMessage());
+            papiExpansion = null;
+        }
+    }
+
+    private void unregisterPapiExpansion() {
+        if (papiExpansion == null) {
+            return;
+        }
+        try {
+            papiExpansion.getClass().getMethod("unregister").invoke(papiExpansion);
+        } catch (Throwable ignored) {
+        }
+        papiExpansion = null;
     }
 
     private void startTimedTask() {

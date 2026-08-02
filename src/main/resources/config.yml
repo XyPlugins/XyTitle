@@ -8,7 +8,7 @@ settings:
 
 display:
   # 是否在普通 Bukkit 聊天事件中追加称号前缀。
-  # 如果你已经使用 XyChatPlus 接管聊天，建议关闭这里，改用 XyChatPlus 的 %title%。
+  # 如果你已经使用 XyChatPlus 接管聊天，建议关闭这里，改用聊天格式中的 %xytitle_title%。
   chat-prefix-enabled: true
   chat-prefix: "&f[&6{title}&f] "
 
