@@ -1,5 +1,12 @@
 # AI Usage Record
 
+## 2026-08-04 / 1.0.6
+
+- 根据服主反馈“称号不佩戴后 AP 属性应该消失”，AI 检查 XyTitle 属性模式和 XyCore AttributePlus source 写入流程。
+- 将 XyTitle 默认属性模式调整为只计算当前佩戴称号，并增加 `settings.legacy-owned-all-enabled` 保护旧配置。
+- 旧配置即使仍为 `attribute-mode: owned-all`，只要未显式开启兼容开关，也会按 `equipped-only` 运行，避免换包后问题继续存在。
+- 同步要求配合 XyCore 0.3.18，以便 AP source 删除后主动刷新 AttributePlus 缓存。
+
 ## 2026-08-03 / 1.0.5
 
 - 根据服主需求，为称号仓库增加左键佩戴、右键取消佩戴的快捷操作。

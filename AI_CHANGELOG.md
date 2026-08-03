@@ -1,5 +1,12 @@
 # XyTitle Changelog
 
+## 1.0.6 - 2026-08-04
+
+- `settings.attribute-mode` 的默认值从 `owned-all` 调整为 `equipped-only`。
+- 新增 `settings.legacy-owned-all-enabled`，仅当该项为 `true` 且 `attribute-mode: owned-all` 时，才启用“拥有全部称号属性累加”的旧版兼容模式。
+- `TitleService#calculateAttributes` 现在默认只把当前佩戴称号加入属性计算，因此 `/xych unequip`、仓库右键取消、称号过期或清空当前佩戴后都会生成空属性行，并通过 XyCore 清理 `xytitle:<uuid>` source。
+- 本次不改变称号数据文件结构，不迁移玩家数据；只改变默认属性生效语义。
+
 ## 1.0.2 - 2026-08-02
 
 - 按语义分流消息前缀：玩家玩法结果走 XyCore，管理/帮助/报错保留 XyTitle。

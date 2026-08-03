@@ -1,5 +1,12 @@
 # XyTitle 更新说明
 
+## 1.0.6 - 2026-08-04
+
+- 默认属性模式改为 `equipped-only`：只计算当前佩戴称号的属性。
+- 新增 `settings.legacy-owned-all-enabled`，旧配置即使仍写着 `attribute-mode: owned-all`，未显式开启兼容开关时也会按只佩戴生效处理。
+- 修复取消佩戴称号后仍可能保留 AP 属性的玩法预期问题；取消佩戴会通过 XyCore 清理 `xytitle:<uuid>` 属性源。
+- 依赖建议提升到 XyCore 0.3.18，配合 XyCore 在删除/写入 AttributePlus source 后主动刷新 AP 缓存。
+
 ## 1.0.5 - 2026-08-03
 
 - 称号仓库新增左右键操作：左键佩戴选中的称号，右键取消当前佩戴。

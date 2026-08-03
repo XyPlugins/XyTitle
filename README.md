@@ -8,7 +8,7 @@ XyTitle 是 XY 系列称号插件，由旧版 `pl-Title` 重构而来。插件�
 
 - Java 8+
 - Spigot/Paper 1.12.2
-- XyCore 0.3.12+
+- XyCore 0.3.18+
 - PlaceholderAPI 可选；如果聊天插件要直接使用 `%xytitle_title%` 这类变量，建议安装并启用。
 
 XyTitle 的 `plugin.yml` 使用 `depend: [XyCore]`，没有 XyCore 时插件不会启动。XyTitle 不直接依赖 AttributePlus，也不会自己写 AP 属性源。
@@ -96,13 +96,18 @@ titles:
 
 ```yaml
 settings:
-  attribute-mode: owned-all
+  attribute-mode: equipped-only
+  legacy-owned-all-enabled: false
 ```
 
 可选值：
 
-- `owned-all`：玩家已拥有的所有称号属性累加，兼容旧版 `pl-Title`。
 - `equipped-only`：只计算当前佩戴称号的属性。
+- `owned-all`：玩家已拥有的所有称号属性累加，旧版兼容模式。
+
+默认和推荐都是 `equipped-only`。这样玩家取消佩戴称号后，XyTitle 会清空自己的 AP 属性源，称号属性会消失。
+
+如果旧配置里还保留 `attribute-mode: owned-all`，但没有额外开启 `legacy-owned-all-enabled: true`，插件也会按 `equipped-only` 处理，避免旧默认配置导致“不佩戴也有属性”。
 
 属性刷新时，XyTitle 会通过 XyCore 调用：
 
@@ -194,7 +199,7 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-17'
 产物：
 
 ```text
-build/libs/XyTitle-1.0.5.jar
+build/libs/XyTitle-1.0.6.jar
 ```
 
 ## 相比旧版优化
@@ -204,7 +209,7 @@ build/libs/XyTitle-1.0.5.jar
 - 强依赖 XyCore，属性写入不再直连 AttributePlus。
 - 移除硬编码 GM 玩家名分支。
 - 属性配置从 lore 文案解析改为结构化 `attributes`。
-- 保留旧版“已拥有称号属性累加”逻辑，并可配置为只算佩戴称号。
+- 默认只计算当前佩戴称号属性；旧版“已拥有称号属性累加”需要显式开启兼容开关。
 - 权限节点统一为 `xytitle.*`。
 - Placeholder 统一交给 XyCore 注册。
 - 本地数据结构更清晰，便于后续迁移到 Core SQL。

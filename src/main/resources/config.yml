@@ -1,7 +1,11 @@
 settings:
-  # owned-all：玩家已拥有的所有称号属性累加，兼容旧插件逻辑。
-  # equipped-only：只计算当前佩戴称号属性。
-  attribute-mode: owned-all
+  # equipped-only：只计算当前佩戴称号属性，取消佩戴后会移除 AP 属性。
+  # owned-all：玩家已拥有的所有称号属性累加，旧版兼容模式。
+  attribute-mode: equipped-only
+  # 是否允许 owned-all 旧版兼容模式真正生效。
+  # false 时，即使旧配置里还写着 attribute-mode: owned-all，也会按 equipped-only 处理。
+  # 如果你明确想做“收藏称号也给属性”，再改成 true。
+  legacy-owned-all-enabled: false
   attribute-source-prefix: "xytitle"
   timed-check-ticks: 1200
   save-on-change: true

@@ -138,8 +138,10 @@ public final class TitleService {
 
     public Map<String, AttributeAmount> calculateAttributes(PlayerTitleData data) {
         Map<String, AttributeAmount> result = new HashMap<String, AttributeAmount>();
-        String mode = plugin.getConfig().getString("settings.attribute-mode", "owned-all");
-        if ("equipped-only".equalsIgnoreCase(mode)) {
+        String mode = plugin.getConfig().getString("settings.attribute-mode", "equipped-only");
+        boolean legacyOwnedAll = "owned-all".equalsIgnoreCase(mode)
+                && plugin.getConfig().getBoolean("settings.legacy-owned-all-enabled", false);
+        if (!legacyOwnedAll) {
             addTitleAttributes(result, data.equippedTitle(), data);
             return result;
         }
