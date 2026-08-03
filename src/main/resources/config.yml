@@ -25,6 +25,7 @@ display:
   no-title: ""
 
 gui:
+  # 称号仓库中左键佩戴称号，右键取消当前佩戴。
   main-menu-size: 9
   title-storage-size: 54
   storage-items-per-page: 45

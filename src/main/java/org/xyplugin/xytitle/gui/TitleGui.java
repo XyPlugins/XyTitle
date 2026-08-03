@@ -80,7 +80,9 @@ public final class TitleGui implements Listener {
             List<String> extra = new ArrayList<String>();
             extra.add("&8ID: " + title.id());
             extra.add("&7有效期: &f" + Durations.formatRemaining(ownedTitle.expiresAtMillis()));
-            extra.add(title.id().equals(data.equippedTitle()) ? "&a当前佩戴中" : "&e点击佩戴");
+            extra.add(title.id().equals(data.equippedTitle()) ? "&a当前佩戴中" : "&7当前未佩戴");
+            extra.add("&e左键：佩戴此称号");
+            extra.add("&c右键：取消当前佩戴");
             inventory.setItem(index - start, title.createItem(extra));
         }
         addNavigation(inventory, page, maxPage);
@@ -136,11 +138,11 @@ public final class TitleGui implements Listener {
             return;
         }
         if (title.startsWith(STORAGE_TITLE)) {
-            handleStorageClick(player, item, name);
+            handleStorageClick(event, player, item, name);
         }
     }
 
-    private void handleStorageClick(Player player, ItemStack item, String name) {
+    private void handleStorageClick(InventoryClickEvent event, Player player, ItemStack item, String name) {
         int page = pages.containsKey(player.getUniqueId()) ? pages.get(player.getUniqueId()) : 0;
         if (name.contains("上一页")) {
             openStorage(player, page - 1);
@@ -161,7 +163,13 @@ public final class TitleGui implements Listener {
         if (id == null) {
             return;
         }
-        if (service.equip(player, id)) {
+        if (event.isRightClick()) {
+            service.unequip(player);
+            plugin.send(player, plugin.getConfig().getString("messages.unequipped", ""));
+            openStorage(player, page);
+            return;
+        }
+        if (event.isLeftClick() && service.equip(player, id)) {
             plugin.send(player, plugin.getConfig().getString("messages.equipped", "").replace("{title}", service.displayName(id)));
             openStorage(player, page);
         }

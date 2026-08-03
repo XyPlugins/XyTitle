@@ -53,6 +53,8 @@ display:
 
 别名：`/xych`、`/xyt`、`/title`。推荐日常使用 `/xych`。
 
+在称号仓库中，左键点击已拥有的称号即可佩戴；右键点击任意已拥有称号即可取消当前佩戴。操作完成后仓库会立即刷新当前状态，`%xytitle_title%` 也会同步更新。
+
 ## 配置称号
 
 普通称号配置在 `titles.yml`：
@@ -192,7 +194,7 @@ $env:JAVA_HOME='C:\Program Files\Java\jdk-17'
 产物：
 
 ```text
-build/libs/XyTitle-1.0.4.jar
+build/libs/XyTitle-1.0.5.jar
 ```
 
 ## 相比旧版优化
